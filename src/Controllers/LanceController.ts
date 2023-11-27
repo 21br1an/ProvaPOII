@@ -7,14 +7,14 @@ class LanceController{
 
     constructor(){}
 
-    async createUsuario(req: Request, res: Response){
+    async createLance(req: Request, res: Response){
         const dados: Prisma.LanceCreateInput = req.body;
         
-        if(dados.comprador !== "" && dados.leilao !== "" && dados.valor !== null){
+        if(dados.comprador !== "" && dados.valor !== null && dados.leilao !== ""){
             const newLance = await LanceServices.createLance(dados)
             res.status(200).json({
                 status: 'ok',
-                newUsuario: newLance
+                newLance: newLance
             });
         }else{
             res.status(400).json({
@@ -25,23 +25,25 @@ class LanceController{
 
     }
 
-    async listUsuarios(req: Request, res: Response){
-        const users = UsuarioServices.listUsuarios();
+    async listLance(req: Request, res: Response){
+        const lances = LanceServices.listLances();
 
         res.status(200).json({
             status: 'ok',
-            users: users
+            lances: lances
         })
+        res.render('lances', { lances: lances })
     }
 
-    async updateUsuario(req: Request, res: Response){
-        const dados: Prisma.UsuarioCreateInput = req.body;
+    async updateLance(req: Request, res: Response){
+        const lance = LanceServices.updateLance = req.body;
+        const dados: Prisma.LanceUpdateInput = req.body;
 
-        if(dados.email !== "" && dados.nome !== ""){
-            const updatedUsuario = await UsuarioServices.updateUsuario(dados.email, dados)
+        if(dados.comprador !== "" && dados.leilao !== "" && dados.valor !==null){
+            const updatedLance = await LanceServices.updateLance(lance.id, dados)
             res.status(200).json({
                 status: 'ok',
-                updatedUsuario: updatedUsuario
+                updatedLance: updatedLance
             });
         }else{
             res.status(400).json({
@@ -51,14 +53,14 @@ class LanceController{
         }
     }
 
-    async deleteUsuario(req: Request, res: Response){
-        const usuario = UsuarioServices.deleteUsuario = req.body;
+    async deleteLance(req: Request, res: Response){
+        const lance = LanceServices.deleteLance = req.body;
 
-        if(usuario.email !== ""){
-            const deletedUsuario = await UsuarioServices.deleteUsuario(usuario.email)
+        if(lance.id !== ""){
+            const deletedLance = await LanceServices.deleteLance(lance.id)
             res.status(200).json({
                 status: 'ok',
-                deletedUsuario: deletedUsuario
+                deletedLance: deletedLance
             });
         }else{
             res.status(400).json({

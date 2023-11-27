@@ -1,72 +1,75 @@
 import { Prisma } from "@prisma/client";
 import { Request, Response } from "express";
 import LeilaoServices from "../Services/LeilaoServices";
+import UsuarioServices from "../Services/UsuarioServices";
 
 class LeilaoController{
 
     constructor(){}
 
-    async createUsuario(req: Request, res: Response){
-        const dados: Prisma.LanceCreateInput = req.body;
+    async createLeilao(req: Request, res: Response){
+        const dados: Prisma.LeilaoCreateInput = req.body;
         
-        if(dados. !== "" && dados.leilao !== "" && dados.valor !== null){
-            const newLance = await LeilaoServices.createLeilao(dados)
+        if(dados.datalimite !== "" && dados.preco !== null && dados.produto !== ""){
+            const newLeilao = await LeilaoServices.createLeilao(dados)
             res.status(200).json({
                 status: 'ok',
-                newUsuario: newLance
+                newUsuario: newLeilao
             });
         }else{
             res.status(400).json({
                 status: 'error',
-                message: 'Favor inserir os dados no corpo da requisição'
+                message: 'Insira os dados'
             })
         }
 
     }
 
-    async listUsuarios(req: Request, res: Response){
-        const users = UsuarioService.listUsuarios();
+    async listLeilao(req: Request, res: Response){
+        const leiloes = LeilaoServices.listLeilao();
 
         res.status(200).json({
             status: 'ok',
-            users: users
+            leiloes: leiloes
         })
+        res.render('leiloes', { leiloes: leiloes })
     }
 
-    async updateUsuario(req: Request, res: Response){
-        const dados: Prisma.UsuarioCreateInput = req.body;
+    async updateLeilao(req: Request, res: Response){
+        const leilao = LeilaoServices.updateLeilao = req.body;
+        const dados: Prisma.LeilaoUpdateInput = req.body;
 
-        if(dados.email !== "" && dados.nome !== ""){
-            const updatedUsuario = await UsuarioService.updateUsuario(dados.email, dados)
+        if(dados.produto !== "" && dados.datalimite !== "" && dados.preco !==null){
+            const updatedLeilao = await LeilaoServices.updateLeilao(leilao.id, dados)
             res.status(200).json({
                 status: 'ok',
-                updatedUsuario: updatedUsuario
+                updatedLeilao: updatedLeilao
             });
         }else{
             res.status(400).json({
                 status: 'error',
-                message: 'Favor inserir os dados no corpo da requisição'
+                message: 'Insira os dados'
             })
         }
     }
 
-    async deleteUsuario(req: Request, res: Response){
-        const usuario = UsuarioService.deleteUsuario = req.body;
+    async deleteLeilao(req: Request, res: Response){
+        const leilao = LeilaoServices.deleteLeilao = req.body;
 
-        if(usuario.email !== ""){
-            const deletedUsuario = await UsuarioService.deleteUsuario(usuario.email)
+        if(leilao.id !== ""){
+            const deletedLeilao = await LeilaoServices.deleteLeilao(leilao.id)
             res.status(200).json({
                 status: 'ok',
-                deletedUsuario: deletedUsuario
+                deletedLeilao: deletedLeilao
             });
         }else{
             res.status(400).json({
                 status: 'error',
-                message: 'Favor inserir os dados corretamente'
+                message: 'Insira os dados corretamente'
             })
 
         }
     }
 }
 
-export default new LanceController();
+export default new LeilaoController();

@@ -18,7 +18,7 @@ class UsuarioController{
         }else{
             res.status(400).json({
                 status: 'error',
-                message: 'Favor inserir os dados no corpo da requisição'
+                message: 'Insira os dados'
             })
         }
 
@@ -45,7 +45,7 @@ class UsuarioController{
         }else{
             res.status(400).json({
                 status: 'error',
-                message: 'Favor inserir os dados no corpo da requisição'
+                message: 'Insira os dados'
             })
         }
     }
@@ -62,7 +62,7 @@ class UsuarioController{
         }else{
             res.status(400).json({
                 status: 'error',
-                message: 'Favor inserir os dados corretamente'
+                message: 'Insira os dados corretamente'
             })
 
         }
